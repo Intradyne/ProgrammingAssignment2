@@ -1,15 +1,42 @@
-## Put comments here that give an overall description of what your
-## functions do
+#MakeCacheMatrix is a function that creates a matrix object capable of storing its inverse
+#cacheSolve is a function that accepts a MakeCacheMatrix object, it then checks for a solution, solves and stores the soution inside of the object
 
-## Write a short comment describing this function
+makeCacheMatrix <- function(m = matrix()){
+  iM <- NULL
 
-makeCacheMatrix <- function(x = matrix()) {
+  get <- function(){
+       m               #returns matrix
+  }
+
+  set <- function(new = matrix()){
+        m <<- new      #stores matrix outside of work environment
+        iM <<- NULL    #overwrites any stored solution
+  }
+
+  iset <- function(newiM){
+        iM <<- newiM   #stores inverted matrix
+  }
+
+  iget <- function(){
+        iM             #returns inverted matrix
+  }
+
+  list(set = set, get = get, iset = iset, iget = iget)
 
 }
 
+cacheSolve <- function(x, ...){ #x should be an object created by makeCacheMatrix
+      iM <- x$iget() #s
 
-## Write a short comment describing this function
+      if(!is.null(iM)) {        #if iM not empty 
+        message("caching saved you time")
+        return(iM)
+      }
+#else
+      temp <- x$get()           #get the original matrix
+      iM <- solve(temp, ...)    #solve and store, passing additional arguments
+      x$iset(iM)                #stores solution using makeCacheMatrix iset
+#return
+      iM
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
 }
